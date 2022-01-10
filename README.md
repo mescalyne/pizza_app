@@ -1,4 +1,4 @@
-# Toto App
+# Pizza App
 
 ## Полезные ссылки
 
