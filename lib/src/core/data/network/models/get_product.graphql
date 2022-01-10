@@ -1,0 +1,7 @@
+# import './product_fragment.graphql'
+
+query GetProduct($id: ID) {
+    getProduct(id: $id) {
+        ...ProductFragment
+    }
+}

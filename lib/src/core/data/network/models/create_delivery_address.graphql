@@ -1,0 +1,7 @@
+# import './delivery_address_fragment.graphql'
+
+mutation CreateDeliveryAddress($input: CreateDeliveryAddressInput){
+    createDeliveryAddress(input:$input){
+        ...DeliveryAddressFragment
+    }
+}

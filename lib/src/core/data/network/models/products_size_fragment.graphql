@@ -1,0 +1,36 @@
+# import './modificator_fragment.graphql'
+# import './group_modificator_fragment.graphql'
+
+
+fragment ProductsSizesFragment on Product {
+    id
+    name
+    additionalInfo
+    description
+    parentGroup{
+        id
+        name
+    }
+    images{
+        imageId
+        imageUrl
+    }
+    price
+    weight
+    carbohydrateAmount
+    carbohydrateFullAmount
+    energyAmount
+    energyFullAmount
+    fatAmount
+    fatFullAmount
+    fiberAmount
+    fiberFullAmount
+
+    modifiers{
+        ...ModificatorFragment
+    }
+
+    groupModifiers{
+        ...GroupModificatorFragment
+    }
+}

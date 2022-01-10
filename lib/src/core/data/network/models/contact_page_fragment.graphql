@@ -1,0 +1,24 @@
+fragment ContactPageFragment on ContactPage {
+    city {
+        id
+        name
+        prefix
+        postal_code
+        city_type
+        available
+    }
+    title
+    contents {
+        id
+        data {
+            logo
+            email
+            telephones
+            social_networks {
+                icon
+                href
+            }
+        }
+    }
+
+}

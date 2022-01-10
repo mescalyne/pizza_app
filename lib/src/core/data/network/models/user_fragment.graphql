@@ -1,0 +1,19 @@
+fragment UserFragment on User {
+    id
+    name
+    surname
+    middle_name
+    email
+    telephone
+    active
+    telephone_verified_at
+    email_verified_at
+    created_at
+    updated_at
+    is_guest
+    last_active_at
+    bonus_balance
+    date_of_birth
+    customer_id
+    bonus_balance
+}

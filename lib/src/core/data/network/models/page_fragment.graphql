@@ -1,0 +1,8 @@
+fragment PageFragment on Page {
+    title
+    contents {
+        data
+        order
+    }
+
+}

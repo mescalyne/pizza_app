@@ -1,0 +1,7 @@
+# import './restaurants_fragment.graphql'
+
+query GetRestaurantByLocationQuery ($latitude: Float!, $longitude: Float!) {
+  getRestaurantByLocation(latitude: $latitude, longitude: $longitude) {
+    ...RestaurantFragment
+  }
+}

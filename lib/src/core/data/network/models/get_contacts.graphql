@@ -1,0 +1,6 @@
+# import './contact_page_fragment.graphql'
+query GetContactsQuery($city_id: Int) {
+    getContacts(city_id: $city_id) {
+        ...ContactPageFragment
+    }
+}

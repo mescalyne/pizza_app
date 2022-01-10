@@ -1,0 +1,7 @@
+# import './cart_fragment.graphql'
+
+query GetCartOrderQuery($id : Int!) {
+    getCartOrderInfo(id: $id) {
+        ...CartFragment
+    }
+}

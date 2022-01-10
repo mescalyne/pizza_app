@@ -1,0 +1,3 @@
+mutation requestPhoneCodeRegister($input: PhoneRegisterInput) {
+    requestPhoneCodeRegister(input: $input)
+}

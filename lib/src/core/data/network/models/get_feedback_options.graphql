@@ -1,0 +1,6 @@
+# import './feedback_options_fragment.graphql'
+query GetFeedbackOptions {
+    getFeedbackOptions {
+        ...FeedbackOptionFragment
+    }
+}

@@ -1,0 +1,9 @@
+fragment UniquePageFragment on Page {
+    title
+    slug
+    icon {
+        type
+        url
+        url_thumbnail
+    }
+}

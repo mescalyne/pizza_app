@@ -1,0 +1,5 @@
+mutation SendOrderFeedback($cart_id: Int!, $comment: String, $mark: Int!, $options: [OptionInput]) {
+    sendOrderFeedback(input: {cart_id: $cart_id, comment: $comment, mark: $mark, options: $options}) {
+        id
+    }
+}

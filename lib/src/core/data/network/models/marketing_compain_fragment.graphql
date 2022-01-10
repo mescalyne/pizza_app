@@ -1,0 +1,12 @@
+# import './file_fragment.graphql'
+fragment  MarketingCompaignFragment on MarketingCampaign {
+     id,
+    name,
+    description,
+    image {
+      ...FileFragment
+    }
+    period_from
+    period_to
+    active
+}

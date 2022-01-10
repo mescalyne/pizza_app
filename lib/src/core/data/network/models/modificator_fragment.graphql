@@ -1,0 +1,9 @@
+
+fragment ModificatorFragment on Modificator {
+    maxAmount
+    minAmount
+    modifierId
+    required
+    defaultAmount
+    hideIfDefaultAmount
+}

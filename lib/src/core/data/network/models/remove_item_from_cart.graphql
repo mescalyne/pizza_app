@@ -1,0 +1,8 @@
+# import './cart_fragment.graphql'
+
+mutation RemoveItemFromCart ($cart_item_id: ID!){
+    removeItemFromCart (cart_item_id: $cart_item_id)
+    {
+        ...CartFragment
+    }
+}

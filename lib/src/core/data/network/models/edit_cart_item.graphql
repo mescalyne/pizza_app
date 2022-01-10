@@ -1,0 +1,7 @@
+# import './cart_fragment.graphql'
+
+mutation EditCartItem($input: editCartItemInput){
+    editCartItem(input:$input){
+        ...CartFragment
+    }
+}

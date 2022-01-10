@@ -1,0 +1,14 @@
+fragment OrderInfoFragment on OrderInfo {
+    order_id
+    delivery_cancel_cause
+    delivery_cancel_comment
+    delivery_date
+    actual_time
+    bill_time
+    cancel_time
+    confirm_time
+    created_time
+    print_time
+    send_time
+    persons_count
+}

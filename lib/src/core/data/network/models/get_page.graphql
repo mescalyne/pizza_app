@@ -1,0 +1,7 @@
+# import './page_fragment.graphql'
+query GetPageQuery($slug: String!, $city_id: Int ) {
+    getPage(slug: $slug, city_id: $city_id) {
+        ...PageFragment
+
+    }
+}

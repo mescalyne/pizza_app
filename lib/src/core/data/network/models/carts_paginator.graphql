@@ -1,0 +1,11 @@
+# import './paginator_info_fragment.graphql'
+# import './cart_fragment.graphql'
+
+fragment CartsPaginatorFragment on CartsPaginator {
+    paginatorInfo {
+        ...PaginatorInfoFragment
+    }
+    data {
+        ...CartFragment
+    }
+}

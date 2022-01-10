@@ -1,0 +1,6 @@
+# import './restaurants_fragment.graphql'
+query GetRestaurantsQuery($city_id : Int) {
+  getRestaurants(city_id : $city_id) {
+    ...RestaurantFragment
+  }
+}

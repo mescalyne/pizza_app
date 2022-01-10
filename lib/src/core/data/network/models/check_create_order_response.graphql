@@ -1,0 +1,7 @@
+fragment CheckCreateOrderResponseFragment on CheckCreateOrderResponse {
+    deliveryRestriction
+    problem
+    resultState
+    deliveryDurationInMinutes
+    deliveryServiceProductInfo
+}

@@ -1,0 +1,26 @@
+# import './city_fragment.graphql'
+# import './terminal_fragment.graphql'
+
+
+fragment RestaurantFragment on Restaurant {
+  	id
+    name
+  	address
+    terminal_kitchen {
+        ...TerminalFragment
+    }
+    terminal_delivery {
+        ...TerminalFragment
+    }
+    latitude
+    longitude
+    open_at
+    close_at
+    is_open
+    delivery_open_at
+    delivery_close_at
+    is_delivery_open
+    city {
+      ...CityFragment
+    }
+}

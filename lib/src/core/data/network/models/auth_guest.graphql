@@ -1,0 +1,13 @@
+# import './user_fragment.graphql'
+
+mutation authGuest {
+    authGuest {
+        access_token
+        refresh_token
+        token_type
+        expires_in
+        user {
+            ...UserFragment
+        }
+    }
+}

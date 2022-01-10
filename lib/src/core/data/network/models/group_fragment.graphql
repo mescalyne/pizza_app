@@ -1,0 +1,8 @@
+fragment GroupFragment on Group {
+  	id
+    parentGroup
+  	images {
+      imageUrl
+    }
+    name
+}

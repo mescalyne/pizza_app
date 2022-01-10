@@ -1,0 +1,7 @@
+# import './delivery_address_fragment.graphql'
+
+query GetAllDeliveryAddresses {
+    getAllDeliveryAddresses {
+        ...DeliveryAddressFragment
+    }
+}

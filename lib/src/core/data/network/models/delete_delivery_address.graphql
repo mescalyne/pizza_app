@@ -1,0 +1,4 @@
+mutation DeleteDeliveryAddress ($id: Int!){
+    deleteDeliveryAddress (id:$id)
+
+}

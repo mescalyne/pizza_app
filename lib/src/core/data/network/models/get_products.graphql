@@ -1,0 +1,7 @@
+# import './product_fragment.graphql'
+
+query GetProductsQuery($filters: ProductFiltersInput) {
+  getProducts(filters: $filters) {
+    ...ProductFragment
+  }
+}

@@ -1,0 +1,6 @@
+# import './unique_page_fragment.graphql'
+query GetUniquePages {
+    getUniquePages {
+        ...UniquePageFragment
+    }
+}

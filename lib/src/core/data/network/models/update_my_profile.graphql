@@ -1,0 +1,8 @@
+# import './user_fragment.graphql'
+
+mutation updateCurrentUser($name: String!, $email: String, $date_of_birth:String)  {
+    updateMyProfile (input: { name: $name, email: $email,date_of_birth:$date_of_birth })
+    {
+      ...UserFragment
+    }
+}

@@ -1,0 +1,3 @@
+mutation requestPhoneCodeAuth($telephone: String!) {
+  requestPhoneCodeAuth(telephone: $telephone)
+}

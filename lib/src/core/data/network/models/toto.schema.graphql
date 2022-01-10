@@ -1,0 +1,1414 @@
+type Query {
+  users(
+    # Limits number of fetched elements.
+    first: Int = 10
+
+    # The offset from which elements are returned.
+    page: Int
+  ): UserPaginator
+  user(id: ID): User
+  me: User
+  getSlugsAllPages: [String!]
+  getUniquePages: [Page!]
+  getPage(slug: String!, city_id: Int): Page
+  getContacts(city_id: Int): ContactPage
+  getProduct(id: ID): Product
+  getProductsWithPaginate(
+    page: Int
+    perPage: Int
+    filters: ProductFiltersInput
+  ): ProductPaginator
+  getProducts(filters: ProductFiltersInput): [Product]
+  getRecommendedProductsForCart(limit: Int): [Product]
+  getGroup(id: String!): Group
+  getGroupsWithPaginate(
+    page: Int
+    perPage: Int
+    filters: GroupFiltersInput
+  ): GroupPaginator
+  getGroups(filters: GroupFiltersInput): [Group]
+  getMyCart: Cart!
+  getOrderInfo: OrderInfo!
+  getCartOrderInfo(id: Int!): Cart!
+
+  # История заказов
+  getArchivedCarts(
+    page: Int
+    perPage: Int
+    filters: CartFiltersInput
+  ): CartsPaginator!
+  getCart(id: Int!): Cart!
+  getRestaurants(city_id: Int, not_active: Boolean): [Restaurant]
+  getRestaurant(id: Int): Restaurant
+  getRestaurantByLocation(latitude: Float!, longitude: Float!): Restaurant
+  getCities: [City]
+  getMarketingCampaigns: [MarketingCampaign]
+  getMarketingCampaign: MarketingCampaign
+  getAllDeliveryAddresses: [DeliveryAddress]
+  getDeliveryAddress(id: Int!): DeliveryAddress
+  getFeedbackOptions: [FeedbackOption]
+  adminGetRoles: [Role]
+  adminGetPermissions: [Permission]
+  adminGetRecommendedProducts: [RecommendedProduct]
+  adminGetRecommendedProduct(id: Int): RecommendedProduct
+  adminGetLogDetail(id: ID!): Log
+  adminGetLogs(
+    paginate: PaginateInput
+    filters: AdminLogFiltersInput
+    sort: SortInput
+  ): [Log]
+  adminGetPages: [Page]
+  adminGetPage(id: Int!): Page
+  adminGetPageContents: [PageContent]
+  adminGetPageContent(id: Int!): PageContent
+  adminGetPageSeos: [PageSeo]
+  adminGetPageSeo(id: Int!): PageSeo
+  adminGetFeedbackOption(id: Int!): FeedbackOption
+  adminGetFeedbackOptions: [FeedbackOption]
+  adminGetOrderFeedback(id: Int!): OrderFeedback
+  adminGetOrderFeedbacks: [OrderFeedback]
+  adminGetUnfilledModels: UnfilledModels
+}
+
+# A paginated list of User items.
+type UserPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of User items.
+  data: [User!]!
+}
+
+# Pagination information about the corresponding list of items.
+type PaginatorInfo {
+  # Total count of available items in the page.
+  count: Int!
+
+  # Current pagination page.
+  currentPage: Int!
+
+  # Index of first item in the current page.
+  firstItem: Int
+
+  # If collection has more pages.
+  hasMorePages: Boolean!
+
+  # Index of last item in the current page.
+  lastItem: Int
+
+  # Last page number of the collection.
+  lastPage: Int!
+
+  # Number of items per page in the collection.
+  perPage: Int!
+
+  # Total items available in the collection.
+  total: Int!
+}
+
+type User {
+  id: ID!
+  name: String
+  surname: String
+  middle_name: String
+  email: String
+  telephone: String
+  active: Boolean
+  telephone_verified_at: DateTime
+  email_verified_at: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
+  is_guest: Boolean
+  last_active_at: DateTime
+  date_of_birth: String
+  customer_id: String
+  bonus_balance: Float
+}
+
+# A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`.
+scalar DateTime
+
+type Page {
+  id: ID!
+  slug: String!
+  title: String!
+  city: City
+  seo: PageSeo
+  icon: File
+  contents: [PageContent]
+}
+
+type City {
+  id: ID!
+  name: String!
+  prefix: String
+  postal_code: String
+  city_type: String
+  available: Boolean
+  latitude: Float
+  longitude: Float
+}
+
+type PageSeo {
+  id: ID!
+  title: String
+  description: String
+  image: String
+  keywords: String
+  noindex: String
+}
+
+type File {
+  id: ID!
+  type: TypeFile
+  url: String
+  url_thumbnail: String
+  description: String
+  size: String
+  author: String
+}
+
+enum TypeFile {
+  IMAGE
+  VIDEO
+  TEXT
+  AUDIO
+}
+
+type PageContent {
+  id: ID!
+  data: JsonData
+  order: Int
+}
+
+# The `JSON` scalar type represents JSON values as specified by
+#         [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+scalar JsonData
+
+type ContactPage {
+  id: ID!
+  city: City
+  title: String!
+  contents: [ContactContent]
+}
+
+type ContactContent {
+  id: ID!
+  data: Contact!
+}
+
+type Contact {
+  logo: String
+  email: String
+  telephones: [String]
+  social_networks: [SocialNetworkLink]
+}
+
+type SocialNetworkLink {
+  icon: SocialNetworkIcon!
+  href: String!
+}
+
+enum SocialNetworkIcon {
+  ICON_FACEBOOK
+  ICON_VK
+  ICON_INSTAGRAM
+  ICON_OK
+}
+
+type Product {
+  id: String!
+  parentGroupId: String
+  groupId: String
+  parentGroup: Group
+  group: Group
+  productCategoryId: String
+  category: ProductCategory
+  products_sizes: [Product]
+  additionalInfo: String
+  name: String!
+  code: String!
+  description: String
+  seoDescription: String
+  seoKeywords: String
+  seoText: String
+  seoTitle: String
+  isDeleted: Boolean
+  tags: [String]
+  images: [ProductImage]
+  isIncludedInMenu: Boolean
+  order: Int
+
+  # Количество углеводов на 100 г блюда
+  carbohydrateAmount: String
+
+  # Количество углеводов в блюде
+  carbohydrateFullAmount: String
+  doNotPrintInCheque: Boolean
+
+  # Энергетическая ценность на 100 г блюда
+  energyAmount: String
+
+  # Энергетическая ценность в блюде
+  energyFullAmount: String
+
+  # Количество жиров на 100 г блюда
+  fatAmount: String
+
+  # Количество жиров в блюде
+  fatFullAmount: String
+
+  # Количество белков на 100 г блюда
+  fiberAmount: String
+
+  # Количество белков в блюде
+  fiberFullAmount: String
+  measureUnit: String
+  price: String
+  type: ProductType
+  useBalanceForSell: Boolean
+
+  # Вес одной единицы в кг
+  weight: String
+  groupModifiers: [GroupModificator]
+  modifiers: [Modificator]
+  stop_list: [StopList]
+  is_visible: Boolean
+  removed_at: DateTime
+}
+
+type Group {
+  id: String!
+  parentGroup: String
+  additionalInfo: String
+  name: String!
+  description: String
+  seoDescription: String
+  seoKeywords: String
+  seoText: String
+  seoTitle: String
+  isDeleted: Boolean
+  tags: [String]
+  images: [ProductImage]
+  isIncludedInMenu: Boolean
+  order: Int
+  is_visible: Boolean
+}
+
+type ProductImage {
+  imageId: String
+  imageUrl: String
+  uploadDate: String
+}
+
+type ProductCategory {
+  id: String!
+  name: String!
+}
+
+enum ProductType {
+  DISH_TYPE
+  MODIFIER_TYPE
+}
+
+type GroupModificator {
+  maxAmount: Int
+  minAmount: Int
+  modifierId: String!
+  required: Boolean
+  childModifiers: [Modificator]
+  childModifiersHaveMinMaxRestrictions: Boolean
+}
+
+type Modificator {
+  maxAmount: Int
+  minAmount: Int
+  modifierId: String!
+  required: Boolean
+  defaultAmount: Int
+  hideIfDefaultAmount: Boolean
+}
+
+type StopList {
+  id: ID
+  terminal_id: String!
+  balance: Int!
+}
+
+input ProductFiltersInput {
+  ids: [String]
+  search: String
+  parentGroupId: String
+  productCategoryId: String
+  groupId: String
+  tags: [String]
+  type: ProductType
+  notIncludedInMenu: Boolean
+  withNotVisible: Boolean
+  withRemoved: Boolean
+  terminals: [String]
+  restaurant: Int
+}
+
+type ProductPaginator {
+  paginatorInfo: PaginatorInfo
+  data: [Product]
+}
+
+input GroupFiltersInput {
+  ids: [String]
+  search: String
+  tags: [String]
+  notIncludedInMenu: Boolean
+  withNotVisible: Boolean
+}
+
+type GroupPaginator {
+  paginatorInfo: PaginatorInfo
+  data: [Group]
+}
+
+type Cart {
+  id: ID!
+  organization: String!
+
+  # Выбранный терминал доставки или кухни (самовывоза)
+  terminal_id: String
+  delivery_address: DeliveryAddress
+  is_self_service: Boolean!
+  cart_order_status: CartOrderStatus!
+  cart_payment_status: CartPaymentStatus!
+  items: [CartItem]
+  payment_type: CartPaymentType!
+
+  # Сдача с. Используется при оплате наличными. Пустое поле означает без сдачи
+  change_from: Int
+
+  # Оплата бонусами
+  bonus_sum: Int
+  coupon: String
+  discount_sum: Float
+
+  # Если не задано, то значение будет взято из заказчика
+  customer_name: String
+
+  # Если не задано, то значение будет взято из заказчика
+  customer_phone: String
+  persons_count: Int!
+
+  # Дата выполнения заказа, если задан null, то система подставит время как текущее + продолжительность доставки
+  date: DateTime
+
+  # Сумма
+  total: String!
+
+  # Сумма к оплате (вычет бонусов)
+  total_payment: String!
+
+  # Цена доставки
+  delivery_price: String
+  order_info: OrderInfo
+  free_products: [Product]
+  comment: String
+  restaurant: Restaurant
+
+  # Флаг ознаначающий: разрешено редактирование или нет
+  locked: Boolean
+}
+
+type DeliveryAddress {
+  id: Int!
+  city_name: String
+  street: String!
+  home: String
+  housing: String
+  apartment: String
+  comment: String
+  city: City
+  address_in_zone: Boolean
+  latitude: Float
+  longitude: Float
+  delivery_area: DeliveryArea
+}
+
+type DeliveryArea {
+  id: ID!
+  company_name: String!
+
+  # Терминал доставки
+  delivery_terminal_id: String!
+
+  # Терминал самовывоза
+  kitchen_terminal_id: String!
+
+  # Бесплатная цена от
+  free_delivery: String
+  delivery_product_id: String
+
+  # GeoJson POLYGON
+  area: JsonData
+
+  # Основная зона доставки точки
+  main_area: Boolean
+  delivery_product: Product
+}
+
+enum CartOrderStatus {
+  NULL_CART_STATUS
+  NEW_CART_STATUS
+  AWAITING_DELIVERY_CART_STATUS
+  ON_THE_WAY_CART_STATUS
+  CLOSED_CART_STATUS
+  CANCELLED_CART_STATUS
+  DELIVERED_CART_STATUS
+  NOT_CONFIRMED_CART_STATUS
+  IN_PROGRESS_CART_STATUS
+  DONE
+}
+
+enum CartPaymentStatus {
+  NULL
+  NEW
+  PAYED
+  REFUNDED
+}
+
+type CartItem {
+  id: Int!
+  product_id: String!
+  product: Product!
+  name: String!
+  amount: Int!
+  total: Float
+  discount_sum: Float
+  sum: Float
+  code: String
+  modifiers: [CartItemModifier]
+}
+
+type CartItemModifier {
+  id: ID!
+  type: String!
+  product_id: String!
+  product: Product!
+  name: String!
+  amount: Int!
+  group_id: String
+  group_name: String
+}
+
+enum CartPaymentType {
+  CASH_PAYMENT_TYPE
+  CARD_PAYMENT_TYPE
+  CARD_EXTERNAL_PAYMENT_TYPE
+}
+
+type OrderInfo {
+  # Идентификатор заказа
+  order_id: String
+
+  # Причина отмены доставки
+  delivery_cancel_cause: String
+
+  # Комментарий к отмене доставки
+  delivery_cancel_comment: String
+
+  # Дата, к которой нужно доставить заказ
+  delivery_date: DateTime
+
+  # Фактическое время доставки
+  actual_time: DateTime
+
+  # Время печати накладной (время печати чека)
+  bill_time: String
+
+  # Время отмены доставки
+  cancel_time: String
+
+  # Время закрытия доставки
+  close_time: String
+
+  # Время подтверждения доставки
+  confirm_time: String
+
+  # Время создания доставки
+  created_time: DateTime
+
+  # Время сервисной печати
+  print_time: DateTime
+
+  # Время отправки доставки
+  send_time: DateTime
+
+  # Количество гостей
+  persons_count: Int
+
+  # Комментарий к заказу
+  comment: String
+}
+
+type Restaurant {
+  id: ID!
+  name: String!
+  address: String
+  terminal_kitchen: Terminal
+  terminal_delivery: Terminal
+  delivery_areas: [DeliveryArea]
+  city: City
+  latitude: String
+  longitude: String
+  open_at: String
+  close_at: String
+  is_open: Boolean
+  delivery_open_at: String
+  delivery_close_at: String
+  is_delivery_open: Boolean
+
+  # Время работы ресторана
+  schedule_restaurant: [ScheduleRestaurant]
+
+  # Время работы доставки
+  schedule_delivery: [ScheduleRestaurant]
+  active: Boolean
+}
+
+type Terminal {
+  id: String!
+  company_entity: CompanyEntity
+}
+
+type CompanyEntity {
+  id: ID!
+  name: String!
+  info: String
+  inn: String
+  bank_name: String
+  bank_settlement_account: String
+  bank_correspondent_account: String
+  bik: String
+}
+
+type ScheduleRestaurant {
+  weekday: Weekdays
+  open_at: String
+  close_at: String
+}
+
+enum Weekdays {
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+}
+
+input CartFiltersInput {
+  payment_status: CartPaymentStatus
+  order_status: CartOrderStatus
+  not_done_status: Boolean
+}
+
+type CartsPaginator {
+  paginatorInfo: PaginatorInfo
+  data: [Cart]
+}
+
+type MarketingCampaign {
+  id: ID!
+  name: String
+  description: String
+  image: File
+  period_from: Date
+  period_to: Date
+  active: Boolean
+}
+
+# A date string with format `Y-m-d`, e.g. `2011-05-23`.
+scalar Date
+
+type FeedbackOption {
+  id: Int!
+  type: String!
+  text: String!
+  icon: File
+}
+
+type Role {
+  id: ID!
+  name: String!
+  readable_name: String!
+  description: String!
+}
+
+type Permission {
+  id: ID!
+  name: String!
+  readable_name: String!
+  description: String!
+}
+
+type RecommendedProduct {
+  id: ID
+  product_id: String
+  product: Product
+}
+
+type Log {
+  id: ID!
+  log_name: String
+  description: String
+  subject_type: String
+  event: String
+  subject_id: Int
+  causer_type: String
+  causer_id: Int
+  properties: String
+  batch: String
+  log_object: LogObject
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+union LogObject =
+  User
+  | Cart
+  | CartItem
+  | Product
+  | ProductCategory
+  | Restaurant
+
+input PaginateInput {
+  perPage: Int
+  page: Int
+}
+
+input AdminLogFiltersInput {
+  group: LogGroup
+  search: String
+}
+
+enum LogGroup {
+  ERROR
+  NOTIFY
+  DEFAULT
+}
+
+input SortInput {
+  _field: String
+  _type: SortType
+}
+
+enum SortType {
+  ASC
+  DESC
+}
+
+type OrderFeedback {
+  id: Int!
+  user: User!
+  cart: Cart!
+  options: [Option]
+  mark: Int!
+  comment: String
+}
+
+type Option {
+  option_id: Int
+  mark: Boolean
+}
+
+type UnfilledModels {
+  restaurants: [Restaurant]
+  company_entities: [CompanyEntity]
+}
+
+type Mutation {
+  uploadFile(input: UploadFileInput): File
+  updateMyProfile(input: UpdateUserInput): User
+  deleteMyProfile: Boolean
+  createDeliveryAddress(input: CreateDeliveryAddressInput): DeliveryAddress
+  updateDeliveryAddress(input: UpdateDeliveryAddressInput): DeliveryAddress
+  deleteDeliveryAddress(id: Int): Boolean
+  calculateCheckin: CheckinResponse!
+  checkCreateOrder: CheckCreateOrderResponse!
+  checkoutCart: CheckoutResponse
+  addItemToCart(input: addItemToCartInput): Cart!
+  addItemsToCart(input: addItemsToCartInput): Cart!
+  addModifiersToCartItem(input: addModifiersToCartItemInput): Cart!
+  editModifierCartItem(input: editModifierCartItemInput): Cart!
+  removeModifierFromCartItem(
+    cart_item_id: Int!
+    cart_item_modifier_id: Int!
+  ): Cart!
+  removeItemFromCart(cart_item_id: ID!): Cart!
+  editCartItem(input: editCartItemInput): Cart!
+  editCart(input: editCartInput): Cart!
+  removeCart: Cart
+  sendOrderFeedback(input: CreateOrderFeedbackInput): OrderFeedback
+  adminCreateRole(
+    name: String!
+    readable_name: String
+    description: String
+  ): Role
+  adminUpdateRole(
+    id: Int!
+    name: String!
+    readable_name: String
+    description: String
+  ): Role
+  adminDeleteRole(id: Int!): Boolean
+  adminSyncPermissions(id: Int, permissions: [Int]): Boolean
+  adminUpdateProduct(input: AdminUpdateProductInput): Product
+  adminUpdateGroup(input: AdminUpdateGroupInput): Group
+  adminChangeScheduleRelevanceMenu(
+    schedule_parse: [AdminScheduleInput!]
+  ): SystemSetting
+  adminUpdateMenu(date: DateTime!): Boolean
+  adminCreateMarketingCampaign(
+    input: AdminCreateMarketingCampaignInput
+  ): MarketingCampaign
+  adminUpdateMarketingCampaign(
+    input: AdminUpdateMarketingCampaignInput
+  ): MarketingCampaign
+  adminDeleteMarketingCampaign(id: Int!): Boolean
+  adminCreatePage(input: AdminCreatePageInput): Page
+  adminUpdatePage(input: AdminUpdatePageInput): Page
+  adminDeletePage(id: Int!): Boolean
+  adminCreatePageContent(input: AdminCreatePageContentInput): PageContent
+  adminUpdatePageContent(input: [AdminUpdatePageContentInput]): [PageContent]
+  adminDeletePageContent(id: Int!): Boolean
+  adminCreatePageSeo(input: AdminCreatePageSeoInput): PageSeo
+  adminUpdatePageSeo(input: AdminUpdatePageSeoInput): PageSeo
+  adminDeletePageSeo(id: Int!): Boolean
+  adminCreateCity(input: adminCreateCityInput): City
+  adminUpdateCity(input: adminUpdateCityInput): City
+  adminCreateCompanyEntity(input: adminCreateCompanyEntityInput): CompanyEntity
+  adminUpdateCompanyEntity(input: adminUpdateCompanyEntityInput): CompanyEntity
+  adminCreateRestaurant(input: adminCreateRestaurantInput): Restaurant
+  adminUpdateRestaurant(input: adminUpdateRestaurantInput): Restaurant
+  adminMakeRecommendedProduct(product_ids: [String]): [RecommendedProduct]
+  adminRemoveRecommendedProduct(product_ids: [String]): Int
+  adminCreateTerminal(input: adminCreateTerminalInput): Terminal
+  adminUpdateTerminal(input: adminUpdateTerminalInput): Terminal
+  adminCreateFeedbackOption(
+    input: AdminCreateFeedbackOptionInput
+  ): FeedbackOption
+  adminUpdateFeedbackOption(
+    input: AdminUpdateFeedbackOptionInput
+  ): FeedbackOption
+  adminDeleteFeedbackOption(id: Int!): Boolean
+  adminUploadDeliveryAreaGeoJsonFile(file: Upload!): Boolean
+  authGuest: AuthPayload!
+  emailAuth(input: EmailLoginInput): AuthPayload!
+  emailRegister(input: EmailRegisterInput): RegisterResponse!
+  phoneAuth(input: PhoneLoginInput): AuthPayload!
+  requestPhoneCodeAuth(telephone: String!): String!
+  requestPhoneCodeRegister(input: PhoneRegisterInput): String!
+  verifyCodeEmail(code: String!): User!
+  verifyCodeEmailResetPassword(email: String!, code: String!): String!
+  sendVerificationCodeEmail: Boolean
+  setDeviceToken(device_token: String!): Boolean
+  refreshToken(input: RefreshTokenInput): RefreshTokenPayload!
+  logout: LogoutResponse!
+  forgotPassword(input: ForgotPasswordInput!): ForgotPasswordResponse!
+  socialLogin(input: SocialLoginInput!): AuthPayload!
+  updatePassword(input: UpdatePassword!): UpdatePasswordResponse!
+  updateForgottenPassword(
+    input: NewPasswordWithCodeInput
+  ): ForgotPasswordResponse!
+}
+
+input UploadFileInput {
+  file: Upload!
+  thumbnail: Upload
+  author: Int
+  description: String
+}
+
+scalar Upload
+
+input UpdateUserInput {
+  city_id: Int
+  name: String!
+  surname: String
+  middle_name: String
+  email: String
+  date_of_birth: String
+}
+
+input CreateDeliveryAddressInput {
+  city_name: String!
+  street: String!
+  home: String!
+  housing: String
+  apartment: String
+  comment: String
+  latitude: Float!
+  longitude: Float!
+}
+
+input UpdateDeliveryAddressInput {
+  id: Int!
+  city_id: Int!
+  city_name: String
+  street: String!
+  home: String!
+  housing: String
+  apartment: String
+  comment: String
+  latitude: Float!
+  longitude: Float!
+}
+
+type CheckinResponse {
+  availablePayments: [AvailablePayments]
+  loyatyResult: [LoyaltyResult]
+  validationWarnings: [String]
+}
+
+type AvailablePayments {
+  id: String
+  maxSum: Float
+  order: Int
+  walletInfos: [WalletInfo]
+}
+
+type WalletInfo {
+  id: String
+  maxSum: Float
+}
+
+type LoyaltyResult {
+  loyaltyTrace: String
+  programResults: [String]
+}
+
+type CheckCreateOrderResponse {
+  deliveryRestriction: String
+  problem: String
+  resultState: Int
+  deliveryDurationInMinutes: Int
+  deliveryServiceProductInfo: Int
+}
+
+type CheckoutResponse {
+  deliveryRestriction: String
+  problem: String
+  resultState: Int
+  deliveryDurationInMinutes: Int
+  deliveryServiceProductInfo: Int
+
+  # Ссылка на оплату
+  url: String
+}
+
+input addItemToCartInput {
+  product_id: String!
+  amount: Int!
+  name: String
+  code: String
+  modifiers: [cartItemModifierInput]
+}
+
+input cartItemModifierInput {
+  product_id: String!
+  amount: Int!
+  name: String
+  group_id: String
+  group_name: String
+}
+
+input addItemsToCartInput {
+  items: [addItemToCartInput]
+}
+
+input addModifiersToCartItemInput {
+  cart_item_id: Int!
+  modifiers: [cartItemModifierInput]
+}
+
+input editModifierCartItemInput {
+  cart_item_id: Int!
+  cart_item_modifier_id: Int!
+  modifier: cartItemModifierUpdateInput
+}
+
+input cartItemModifierUpdateInput {
+  name: String
+  amount: Int
+  group_id: String
+  group_name: String
+}
+
+input editCartItemInput {
+  cart_item_id: Int!
+  name: String
+  amount: Int
+  modifiers: [cartItemModifierInput]
+}
+
+input editCartInput {
+  # Выбранный терминал доставки или кухни (самовывоза)
+  terminal_id: String
+  address_id: Int
+  is_self_service: Boolean
+  coupon: String
+  payment_type: CartPaymentType
+
+  # Сдача с. Используется при оплате наличными. Пустое поле означает без сдачи
+  change_from: Int
+
+  # Оплата бонусами
+  bonus_sum: Int
+  persons_count: Int
+
+  # Дата выполнения заказа, если задан null, то система подставит время как текущее + продолжительность доставки
+  date: DateTime
+
+  # Если не задано, то значение будет взято из заказчика
+  customer_name: String
+
+  # Если не задано, то значение будет взято из заказчика
+  customer_phone: String
+  comment: String
+  locked: Boolean
+}
+
+input CreateOrderFeedbackInput {
+  cart_id: Int!
+  options: [OptionInput]
+  comment: String
+
+  # 0-5
+  mark: Int!
+}
+
+input OptionInput {
+  option_id: Int!
+  mark: Boolean!
+}
+
+input AdminUpdateProductInput {
+  id: Int
+  name: String
+  description: String
+  tags: [String]
+  is_visible: Boolean
+}
+
+input AdminUpdateGroupInput {
+  id: Int
+  name: String
+  description: String
+  tags: [String]
+  is_visible: Boolean
+}
+
+input AdminScheduleInput {
+  weekday: Weekdays
+  time: String
+}
+
+type SystemSetting {
+  id: ID
+  schedule_parse: [ScheduleArray]
+}
+
+type ScheduleArray {
+  weekday: Weekdays
+  time: String
+}
+
+input AdminCreateMarketingCampaignInput {
+  name: String!
+  description: String!
+  image_id: Int
+  period_from: Date
+  period_to: Date
+  active: Boolean
+}
+
+input AdminUpdateMarketingCampaignInput {
+  name: String!
+  description: String!
+  image_id: Int
+  period_from: Date
+  period_to: Date
+  active: Boolean
+}
+
+input AdminCreatePageInput {
+  slug: String
+  title: String!
+  city_id: Int
+}
+
+input AdminUpdatePageInput {
+  id: Int!
+  slug: String
+  title: String
+  city_id: Int
+  seo_id: Int
+  content_ids: [Int!]
+}
+
+input AdminCreatePageContentInput {
+  data: String
+  page_id: Int!
+  order: Int!
+}
+
+input AdminUpdatePageContentInput {
+  id: Int!
+  data: String!
+  order: Int!
+}
+
+input AdminCreatePageSeoInput {
+  title: String
+  description: String
+  image: String
+  keywords: String
+  noindex: String
+}
+
+input AdminUpdatePageSeoInput {
+  id: ID!
+  title: String
+  description: String
+  image: String
+  keywords: String
+  noindex: String
+}
+
+input adminCreateCityInput {
+  name: String!
+  prefix: String
+  postal_code: String
+  city_type: String
+  available: Boolean
+  latitude: Float
+  longitude: Float
+}
+
+input adminUpdateCityInput {
+  name: String!
+  prefix: String
+  postal_code: String
+  city_type: String
+  available: Boolean
+  latitude: Float
+  longitude: Float
+}
+
+input adminCreateCompanyEntityInput {
+  name: String!
+  info: String
+  inn: String
+  bank_name: String
+  bank_settlement_account: String
+  bank_correspondent_account: String
+  bik: String
+}
+
+input adminUpdateCompanyEntityInput {
+  name: String!
+  info: String
+  inn: String
+  bank_name: String
+  bank_settlement_account: String
+  bank_correspondent_account: String
+  bik: String
+}
+
+input adminCreateRestaurantInput {
+  name: String!
+  address: String
+  terminal_kitchen_id: Int
+  terminal_delivery_id: Int
+  city_id: Int
+  latitude: String
+  longitude: String
+  open_at: String
+  close_at: String
+}
+
+input adminUpdateRestaurantInput {
+  id: ID!
+  name: String
+  address: String
+  terminal_kitchen_id: Int
+  terminal_delivery_id: Int
+  city_id: Int
+  latitude: String
+  longitude: String
+  schedule_restaurant: [ScheduleRestaurantInput]
+
+  # Время работы доставки
+  schedule_delivery: [ScheduleRestaurantInput]
+}
+
+input ScheduleRestaurantInput {
+  weekday: Weekdays
+  open_at: String
+  close_at: String
+}
+
+input adminCreateTerminalInput {
+  terminal_id: String!
+  company_entity_id: Int!
+}
+
+input adminUpdateTerminalInput {
+  terminal_id: String
+  company_entity_id: Int
+}
+
+input AdminCreateFeedbackOptionInput {
+  type: String!
+  text: String!
+  file_id: Int!
+}
+
+input AdminUpdateFeedbackOptionInput {
+  id: Int!
+  type: String!
+  text: String!
+  file_id: Int!
+}
+
+type AuthPayload {
+  access_token: String
+  refresh_token: String
+  expires_in: Int
+  token_type: String
+  user: User
+}
+
+input EmailLoginInput {
+  username: String!
+  password: String!
+  administrator: Boolean
+  two_factor_code: String
+}
+
+input EmailRegisterInput {
+  name: String!
+  surname: String!
+  email: String!
+  password: String!
+  password_confirmation: String!
+}
+
+type RegisterResponse {
+  tokens: AuthPayload
+  status: RegisterStatuses!
+}
+
+enum RegisterStatuses {
+  MUST_VERIFY_EMAIL
+  SUCCESS
+}
+
+input PhoneLoginInput {
+  telephone: String!
+  code: String!
+}
+
+input PhoneRegisterInput {
+  telephone: String!
+  name: String!
+}
+
+input RefreshTokenInput {
+  refresh_token: String
+}
+
+type RefreshTokenPayload {
+  access_token: String!
+  refresh_token: String!
+  expires_in: Int!
+  token_type: String!
+}
+
+type LogoutResponse {
+  status: String!
+  message: String
+}
+
+input ForgotPasswordInput {
+  email: String!
+}
+
+type ForgotPasswordResponse {
+  status: String!
+  message: String
+}
+
+input SocialLoginInput {
+  provider: String!
+  token: String!
+}
+
+input UpdatePassword {
+  old_password: String!
+  password: String!
+  password_confirmation: String!
+}
+
+type UpdatePasswordResponse {
+  status: String!
+  message: String
+}
+
+input NewPasswordWithCodeInput {
+  email: String!
+  token: String!
+  password: String!
+  password_confirmation: String!
+}
+
+# Loose type that allows any value. Be careful when passing in large `Int` or `Float` literals,
+# as they may not be parsed correctly on the server side. Use `String` literals if you are
+# dealing with really large numbers to be on the safe side.
+scalar Mixed
+
+# Arbitrary data encoded in JavaScript Object Notation. See https://www.json.org/.
+scalar Json
+
+type CheckoutUrl {
+  url: String
+}
+
+input RegisterInput {
+  name: String!
+  email: String!
+  password: String!
+  password_confirmation: String!
+}
+
+input VerifyEmailInput {
+  token: String!
+}
+
+# Pagination information about the corresponding list of items.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+
+  # Total number of node in connection.
+  total: Int
+
+  # Count of nodes in current request.
+  count: Int
+
+  # Current page of request.
+  currentPage: Int
+
+  # Last page in connection.
+  lastPage: Int
+}
+
+# The available directions for ordering a list of records.
+enum SortOrder {
+  # Sort records in ascending order.
+  ASC
+
+  # Sort records in descending order.
+  DESC
+}
+
+# Allows ordering a list of records.
+input OrderByClause {
+  # The column that is used for ordering.
+  field: String!
+
+  # The direction that is used for ordering.
+  order: SortOrder!
+}
+
+# Specify if you want to include or exclude trashed results from a query.
+enum Trashed {
+  # Only return trashed results.
+  ONLY
+
+  # Return both trashed and non-trashed results.
+  WITH
+
+  # Only return non-trashed results.
+  WITHOUT
+}
+
+# Dynamic WHERE conditions for queries.
+input WhereConditions {
+  # The column that is used for the condition.
+  column: String
+
+  # The operator that is used for the condition.
+  operator: SQLOperator = EQ
+
+  # The value that is used for the condition.
+  value: Mixed
+
+  # A set of conditions that requires all conditions to match.
+  AND: [WhereConditions!]
+
+  # A set of conditions that requires at least one condition to match.
+  OR: [WhereConditions!]
+}
+
+# The available SQL operators that are used to filter query results.
+enum SQLOperator {
+  # Equal operator (`=`)
+  EQ
+
+  # Not equal operator (`!=`)
+  NEQ
+
+  # Greater than operator (`>`)
+  GT
+
+  # Greater than or equal operator (`>=`)
+  GTE
+
+  # Less than operator (`<`)
+  LT
+
+  # Less than or equal operator (`<=`)
+  LTE
+
+  # Simple pattern matching (`LIKE`)
+  LIKE
+
+  # Negation of simple pattern matching (`NOT LIKE`)
+  NOT_LIKE
+
+  # Whether a value is within a set of values (`IN`)
+  IN
+
+  # Whether a value is not within a set of values (`NOT IN`)
+  NOT_IN
+
+  # Whether a value is within a range of values (`BETWEEN`)
+  BETWEEN
+
+  # Whether a value is not within a range of values (`NOT BETWEEN`)
+  NOT_BETWEEN
+
+  # Whether a value is null (`IS NULL`)
+  IS_NULL
+
+  # Whether a value is not null (`IS NOT NULL`)
+  IS_NOT_NULL
+}

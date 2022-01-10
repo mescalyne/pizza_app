@@ -1,0 +1,11 @@
+
+fragment DeliveryAreaFragment on DeliveryArea {
+  	id
+    company_name
+    delivery_terminal_id
+    kitchen_terminal_id
+    free_delivery
+    delivery_product_id
+    area
+    main_area
+}

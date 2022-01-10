@@ -1,0 +1,7 @@
+# import './carts_paginator.graphql'
+
+query GetArchivedCartsQuery($page : Int, $perPage : Int, $filters: CartFiltersInput) {
+    getArchivedCarts(page: $page, perPage: $perPage, filters: $filters) {
+        ...CartsPaginatorFragment
+    }
+}

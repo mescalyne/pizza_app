@@ -1,0 +1,42 @@
+# import './delivery_address_fragment.graphql'
+# import './cartItem_fragment.graphql'
+# import './order_info_fragment.graphql'
+# import './restaurants_fragment.graphql'
+
+fragment CartFragment on Cart {
+    id
+    organization
+    terminal_id
+    delivery_address{
+        ...DeliveryAddressFragment
+    }
+    is_self_service
+    cart_order_status
+    cart_payment_status
+    items{
+        ...CartItemFragment
+    }
+    payment_type
+
+    # Сдача с. Используется при оплате наличными. Пустое поле означает без сдачи
+    change_from
+    coupon
+    # Оплата бонусами
+    bonus_sum
+    discount_sum
+    customer_name
+    customer_phone
+    date
+    persons_count
+    total
+    total_payment
+    delivery_price
+    order_info {
+        ...OrderInfoFragment
+    }
+    comment
+    restaurant {
+        ...RestaurantFragment
+    }
+}
+

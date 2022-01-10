@@ -1,0 +1,7 @@
+# import './restaurants_fragment.graphql'
+
+query GetRestaurant($id: Int) {
+    getRestaurant(id: $id) {
+        ...RestaurantFragment
+    }
+}

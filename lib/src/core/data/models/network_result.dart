@@ -1,0 +1,1 @@
+enum NetworkResult { success, error, networkFailure, wrongTelephoneFormat, incorrectUser, userExist }

@@ -1,0 +1,8 @@
+fragment CityFragment on City {
+    id
+    name
+    prefix
+    postal_code
+    city_type
+    available
+}

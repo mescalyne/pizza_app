@@ -1,0 +1,6 @@
+# import './marketing_compain_fragment.graphql'
+query GetCompaigns {
+  getMarketingCampaigns{
+    ...MarketingCompaignFragment
+  }
+}

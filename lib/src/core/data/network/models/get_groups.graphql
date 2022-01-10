@@ -1,0 +1,7 @@
+# import './group_fragment.graphql'
+
+query GetGroupsQuery($filters: GroupFiltersInput) {
+  getGroups(filters: $filters) {
+    ...GroupFragment
+  }
+}

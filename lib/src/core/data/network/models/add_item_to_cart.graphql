@@ -1,0 +1,8 @@
+
+# import './cart_fragment.graphql'
+
+mutation AddItemToCart($input: addItemToCartInput){
+    addItemToCart(input:$input){
+        ...CartFragment
+    }
+}

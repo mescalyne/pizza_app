@@ -1,0 +1,8 @@
+fragment CheckoutResponseFragment on CheckoutResponse {
+    deliveryRestriction
+    problem
+    resultState
+    deliveryDurationInMinutes
+    deliveryServiceProductInfo
+    url
+}

@@ -1,0 +1,120 @@
+name: toto_mobile
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 0.0.3+3
+
+environment:
+  sdk: ">=2.14.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+
+  # locale
+  klocalizations_flutter: ^0.0.4
+
+  # architecture
+  flutter_bloc: ^7.2.0
+  get_it: ^6.0.0
+  injectable: ^1.2.0
+  form_bloc: ^0.20.1
+  flutter_form_bloc: ^0.20.1
+  rxdart: ^0.26.0
+
+  #ui
+  fluttertoast: ^8.0.8 
+  carousel_slider: ^4.0.0
+  custom_pop_up_menu: ^1.2.2
+  yandex_mapkit: ^1.1.1
+  badges: ^2.0.1
+  scroll_to_index: ^2.0.0
+  yandex_geocoder: ^2.0.1
+  location: ^4.3.0
+  infinite_scroll_pagination: ^3.1.0
+  geolocator: ^7.6.2
+  nested_scroll_controller: ^1.0.0
+  sliding_up_panel: ^2.0.0+1
+  sliding_sheet: ^0.5.0
+  geocode: ^1.0.1
+  scrollable_positioned_list: ^0.2.0-nullsafety.0
+  shimmer: ^2.0.0
+  scrolls_to_top: ^1.1.1
+  image: ^3.1.0
+
+  # data
+  geojson: ^1.0.0
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
+  hive_generator: ^1.1.0
+  path_provider: ^2.0.5
+
+  # utils
+  freezed_annotation: ^0.14.0
+  dartx: ^0.7.1
+  translator: ^0.1.7
+
+  # network
+  graphql: ^5.0.0
+  graphql_flutter: ^5.0.0
+  mockito: ^5.0.15
+  http: ^0.13.1
+
+  # ui
+  flutter_svg: ^0.22.0
+
+  # formats
+  mask_text_input_formatter: ^2.0.0
+
+  lint: ^1.7.2
+
+  # url
+  url_launcher: ^6.0.12
+  in_app_review: ^2.0.3
+  webview_flutter: ^3.0.0
+
+  #firebase
+  firebase_core: "^1.10.0"
+  firebase_crashlytics: "^2.3.0"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  freezed: ^0.14.0+1
+  build_runner: ^2.1.1
+  injectable_generator: ^1.2.0
+  ferry_generator: 0.4.4
+
+dependency_overrides:
+  build_resolvers: ^2.0.4
+  built_value_generator: ^8.1.1
+  analyzer: '2.7.0'
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/png/
+
+
+  fonts:
+    - family: AppIcons
+      fonts:
+        - asset: fonts/Toto_Icons_Set.ttf
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
+        - asset: fonts/Roboto-Light.ttf
+          weight: 300
+        - asset: fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: fonts/Roboto-Black.ttf
+          weight: 900
+        - asset: fonts/Roboto-Thin.ttf
+          weight: 100
+    

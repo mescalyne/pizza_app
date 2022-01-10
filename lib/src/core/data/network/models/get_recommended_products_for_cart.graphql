@@ -1,0 +1,7 @@
+# import './product_fragment.graphql'
+
+query GetRecommendedProductsForCart($limit: Int!){
+    getRecommendedProductsForCart(limit: $limit){
+        ...ProductFragment
+    }
+}

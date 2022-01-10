@@ -1,0 +1,17 @@
+# import './city_fragment.graphql'
+fragment DeliveryAddressFragment on DeliveryAddress{
+  id
+  city_name
+  street
+  home
+  housing
+  apartment
+  comment
+  latitude
+  longitude
+  city{
+    ...CityFragment
+  }
+  address_in_zone
+}
+

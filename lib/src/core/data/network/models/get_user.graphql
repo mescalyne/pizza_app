@@ -1,0 +1,7 @@
+# import './user_fragment.graphql'
+
+query GetUser($id: ID) {
+    user(id: $id) {
+        ...UserFragment
+    }
+}

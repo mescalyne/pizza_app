@@ -1,0 +1,19 @@
+# import './product_fragment.graphql'
+# import './cartItem_modifier_fragment.graphql'
+
+fragment CartItemFragment on CartItem{
+    id
+    product_id
+    product {
+        ...ProductFragment
+    }
+    name
+    amount
+    total
+    discount_sum
+    sum
+    code
+    modifiers{
+        ...CartItemModifierFragment
+    }
+}

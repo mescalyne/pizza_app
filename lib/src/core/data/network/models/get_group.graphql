@@ -1,0 +1,7 @@
+# import './group_fragment.graphql'
+
+query GetGroupQuery($id: String!) {
+  getGroup(id: $id) {
+    ...GroupFragment
+  }
+}

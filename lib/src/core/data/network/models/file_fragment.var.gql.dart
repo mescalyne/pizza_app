@@ -1,0 +1,24 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
+import 'package:toto_mobile/src/core/data/network/models/serializers.gql.dart'
+    as _i1;
+
+part 'file_fragment.var.gql.g.dart';
+
+abstract class GFileFragmentVars
+    implements Built<GFileFragmentVars, GFileFragmentVarsBuilder> {
+  GFileFragmentVars._();
+
+  factory GFileFragmentVars([Function(GFileFragmentVarsBuilder b) updates]) =
+      _$GFileFragmentVars;
+
+  static Serializer<GFileFragmentVars> get serializer =>
+      _$gFileFragmentVarsSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i1.serializers.serializeWith(GFileFragmentVars.serializer, this)
+          as Map<String, dynamic>);
+  static GFileFragmentVars? fromJson(Map<String, dynamic> json) =>
+      _i1.serializers.deserializeWith(GFileFragmentVars.serializer, json);
+}

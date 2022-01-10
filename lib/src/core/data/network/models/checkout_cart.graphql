@@ -1,0 +1,7 @@
+# import './checkout_cart_fragment.graphql'
+
+mutation CheckoutCart {
+    checkoutCart {
+        ...CheckoutResponseFragment
+    }
+}

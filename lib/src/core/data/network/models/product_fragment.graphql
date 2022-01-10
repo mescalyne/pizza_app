@@ -1,0 +1,86 @@
+# import './products_size_fragment.graphql'
+# import './modificator_fragment.graphql'
+# import './group_modificator_fragment.graphql'
+
+
+fragment ProductFragment on Product {
+    id
+    parentGroupId
+    groupId
+    parentGroup{
+        id
+        parentGroup
+        additionalInfo
+        name
+        description
+    }
+    group{
+        id
+        parentGroup
+        additionalInfo
+        name
+        description
+    }
+    productCategoryId
+    category{
+        id
+        name
+    }
+    products_sizes{
+        ...ProductsSizesFragment
+    }
+    additionalInfo
+    name
+    code
+    description
+    seoDescription
+    seoKeywords
+    seoText
+    seoTitle
+    isDeleted
+    tags
+    images{
+        imageId
+        imageUrl
+    }
+    isIncludedInMenu
+    order
+
+    doNotPrintInCheque
+    # Количество углеводов на 100 г блюда
+    carbohydrateAmount
+    # Количество углеводов в блюде
+    carbohydrateFullAmount
+
+    # Энергетическая ценность на 100 г блюда
+    energyAmount
+
+    # Энергетическая ценность в блюде
+    energyFullAmount
+
+    # Количество жиров на 100 г блюда
+    fatAmount
+
+    # Количество жиров в блюде
+    fatFullAmount
+
+    # Количество белков на 100 г блюда
+    fiberAmount
+
+    # Количество белков в блюде
+    fiberFullAmount
+    measureUnit
+    price
+    useBalanceForSell
+
+    # Вес одной единицы в кг
+    weight
+
+    modifiers{
+        ...ModificatorFragment
+    }
+
+    groupModifiers{
+        ...GroupModificatorFragment
+    }
+}

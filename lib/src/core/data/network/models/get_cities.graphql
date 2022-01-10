@@ -1,0 +1,7 @@
+# import './city_fragment.graphql'
+
+query GetCitiesQuery {
+  getCities {
+    ...CityFragment
+  }
+}

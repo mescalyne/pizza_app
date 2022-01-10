@@ -1,0 +1,10 @@
+fragment FeedbackOptionFragment on FeedbackOption {
+    id
+    type
+    text
+    icon {
+        type
+        url
+        url_thumbnail
+    }
+}

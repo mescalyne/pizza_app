@@ -1,0 +1,7 @@
+# import './check_create_order_response.graphql'
+
+mutation CheckCreateOrder {
+    checkCreateOrder {
+        ...CheckCreateOrderResponseFragment
+    }
+}

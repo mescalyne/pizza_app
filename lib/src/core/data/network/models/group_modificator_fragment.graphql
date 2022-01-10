@@ -1,0 +1,13 @@
+# import './modificator_fragment.graphql'
+
+
+fragment  GroupModificatorFragment on GroupModificator {
+    maxAmount
+    minAmount
+    modifierId
+    required
+    childModifiers{
+        ...ModificatorFragment
+    }
+    childModifiersHaveMinMaxRestrictions
+}
